@@ -1,6 +1,15 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { provideAuth0 } from '@auth0/auth0-angular';
 import { AppComponent } from './app/app.component';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideAuth0({
+      domain: 'dev-n1lb40exoxfu2fwu.us.auth0.com',
+      clientId: 'BvXEhZ8flXDPnd2H3NLkk7B7RQvCyS2N',
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    }),
+  ]
+});
