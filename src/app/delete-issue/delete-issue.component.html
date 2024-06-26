@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{data.name| titlecase}} Confirm</h2>
+<mat-dialog-content>
+  <p>Would you like to delete this {{data.name| titlecase}}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="bg-white px-4 py-1 mr-2 rounded-md"  (click)="onNoClick()">No</button>
+  <button class="bg-white px-4 py-1 mr-2 rounded-md" (click)="confirmed()" cdkFocusInitial>Confirm</button>
+</mat-dialog-actions>
+

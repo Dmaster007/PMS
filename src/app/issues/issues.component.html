@@ -1,0 +1,205 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+      Issue Management
+    </h2>
+    <div class="flex"></div>
+    <button
+      (click)="openDialog()"
+      mat-raised-button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mb-3 rounded"
+    >
+      Add Issue
+    </button>
+
+    <div class="mb-4 bg-slate-100">
+      <div class="bg-white p-4">
+        <div class="accordion">
+          <div class="accordion-item border-b border-gray-300">
+            <div
+              class="accordion-header rounded bg-white hover:bg-gray-200 p-4 cursor-pointer"
+              (click)="toggleAccordion('panel1')"
+            >
+            <span class="text-black flex items-center">
+              <mat-icon class="mr-1">filter_list</mat-icon> <!-- Adjust margin as needed -->
+              Filter
+            </span>
+            
+            </div>
+            <div
+              id="panel1"
+              class="accordion-content"
+              [ngClass]="{ hidden: !isPanelOpen }"
+            >
+              <div class="mb-4">
+                <label class="block text-black mb-2" for="priority"
+                  >Priority</label
+                >
+                <select
+                  id="priority"
+                  name="priority"
+                  class="w-full p-2 border border-gray-300 rounded"
+                  [formControl]="priority"
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="block text-black mb-2" for="progress"
+                  >Progress</label
+                >
+                <select
+                  id="progress"
+                  name="progress"
+                  class="w-full p-2 border border-gray-300 rounded"
+                  [formControl]="progress"
+                >
+                  <option value="0">0%</option>
+                  <option value="25">25%</option>
+                  <option value="50">50%</option>
+                  <option value="75">75%</option>
+                  <option value="100">100%</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="block text-black mb-2" for="category"
+                  >Category</label
+                >
+                <select
+                  id="category"
+                  name="category"
+                  class="w-full p-2 border border-gray-300 rounded"
+                  [formControl]="category"
+                >
+                  <option value="Bug">Bug</option>
+                  <option value="Improvement">Improvement</option>
+                  <option value="Feature">Feature</option>
+                </select>
+              </div>
+              <button
+                type="submit"
+                (click)="applyfilters()"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="issuesService.filteredIssues.length == 0"
+      class="flex justify-center items-center h-screen"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div
+      class="overflow-x-auto"
+      *ngIf="issuesService.filteredIssues.length > 0"
+    >
+      <div class="max-h-96 overflow-y-auto mb-4">
+        <table class="min-w-full bg-white border-gray-300 border">
+          <thead>
+            <tr>
+              <th
+                class="sticky top-0 pl-6 px-1 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Title
+              </th>
+              <th
+                class="sticky top-0 px-4 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Content
+              </th>
+              <th
+                class="sticky top-0 px-3 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Progress
+              </th>
+              <th
+                class="sticky top-0 px-3 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Priority
+              </th>
+              <th
+                class="sticky top-0 px-3 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Category
+              </th>
+              <th
+                class="sticky top-0 px-3 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Due Date
+              </th>
+              <th
+                class="sticky top-0 px-3 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Assignee
+              </th>
+              <th
+                class="sticky top-0 px-1 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let issue of issuesService.filteredIssues"
+              class="border-b border-gray-300"
+            >
+              <td class="px-1 pl-6 py-2 whitespace-no-wrap">
+                {{ issue.title }}
+              </td>
+              <td class="px-4 py-4 whitespace-pre-wrap">{{ issue.content }}</td>
+              <td class="px-3 py-4 whitespace-no-wrap">
+                {{ issue.progress }}%
+              </td>
+              <td class="px-3 py-4 whitespace-no-wrap">{{ issue.priority }}</td>
+              <td class="px-3 py-4 whitespace-no-wrap">{{ issue.category }}</td>
+              <td class="px-3 py-4 whitespace-no-wrap">
+                {{ issue.dueDate | date : "dd MMM" }}
+              </td>
+              <td class="px-3 py-4 whitespace-no-wrap">
+                {{ issue.assigneeName.name }}
+              </td>
+              <td class="px-1 py-4 whitespace-no-wrap relative">
+                <button (click)="toggleActions(issue)" class="text-black">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <div
+                  *ngIf="issue.id === toggledIssue_id"
+                  class="origin-top-right absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                >
+                  <span
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                    (click)="openDialog3(issue)"
+                  >
+                    <mat-icon class="mr-2">remove_red_eye</mat-icon> View
+                  </span>
+                  <span
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                    (click)="openDialogUpdate(issue)"
+                  >
+                    <mat-icon class="mr-2">edit</mat-icon> Edit
+                  </span>
+                  <span
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                    (click)="openDialog1(issue)"
+                  >
+                    <mat-icon class="mr-2">delete</mat-icon> Delete
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

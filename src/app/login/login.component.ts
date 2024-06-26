@@ -9,5 +9,7 @@ import { AuthService } from '@auth0/auth0-angular'
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(@Inject(DOCUMENT) public document: Document,public auth: AuthService) {}
+  constructor(@Inject(DOCUMENT) public document: Document,public auth: AuthService) {
+    
+  }
 }
