@@ -16,6 +16,7 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { UsersService } from '../users.service';
 import { Subscription } from 'rxjs';
+import { ProjectServiceService } from '../project-service.service';
 @Component({
   selector: 'app-create-issues',
   standalone: true,
@@ -39,8 +40,9 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<CreateIssuesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private issuesService: IssuesService,
-    private users: UsersService
+    public issuesService: IssuesService,
+    private users: UsersService,
+    public projects:ProjectServiceService
   ) {
     this.issueForm = new FormGroup({
       title: new FormControl(data.title || '', Validators.required),
@@ -51,8 +53,14 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
       startDate: new FormControl(data.startDate || '', Validators.required),
       dueDate: new FormControl(data.dueDate || '', Validators.required),
       assignee : new FormControl(data.assignee|| '', Validators.required),
+      project: new FormControl(data.project || ''),
       assigneeSearch: new FormControl(''),
+      projectSearch: new FormControl(''),
+      
     });
+    setTimeout(()=>{
+       this.filteredProjects =  this.projects.projects 
+    },200)
   }
   ngOnInit(): void {
     const assigneeSearchControl = this.issueForm.get('assigneeSearch');
@@ -76,6 +84,14 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
       user.name.toLowerCase().includes(searchText.toLowerCase()) && user.role!== 'Admin'
     );
   }
+  filteredProjects: any[] = []; // Initialize filteredProjects
+
+  filterProjects(searchText: string): void {
+    this.filteredProjects = this.projects.projects.filter((project: any) =>
+      project.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }
+  
   submit(event: Event): void {
     event.preventDefault();
     if (this.issueForm.valid) {

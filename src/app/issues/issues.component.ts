@@ -9,6 +9,17 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { DeleteIssueComponent } from '../delete-issue/delete-issue.component';
 import { ViewIssueComponent } from '../view-issue/view-issue.component';
 import {MatIconModule} from '@angular/material/icon';
+import User from '../users/user';
+import { ProjectServiceService } from '../project-service.service';
+
+export default interface Project{
+  id:String,
+  title:String,
+  desc:String,
+  lead:User,
+  members : User[]
+}
+
 @Component({
   selector: 'app-issues',
   standalone: true,
@@ -17,8 +28,8 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './issues.component.css'
 })
 export class IssuesComponent {
-  constructor(public issuesService : IssuesService){
-
+  constructor(public issuesService : IssuesService , public projectService : ProjectServiceService){
+    
   }
   readonly dialog = inject(MatDialog);
   readonly panelOpenState = signal(false);
@@ -26,7 +37,7 @@ export class IssuesComponent {
   progress = new FormControl<string>('');
   category = new FormControl('');
   isPanelOpen = false;
-
+  
   toggleAccordion(panelId: string): void {
     this.isPanelOpen = !this.isPanelOpen;
   }
@@ -44,7 +55,7 @@ export class IssuesComponent {
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateIssuesComponent, {
-      data: {action:'Create', animal:"bolo"},
+      data: {action:'Create', animal:"bolo" , project: this.projectService.seletedProject.id},
     });
 
     dialogRef.afterClosed().subscribe(result => {

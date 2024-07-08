@@ -1,9 +1,18 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+<div class="flex flex-col items-center justify-center min-h-screen mt-16 bg-gray-100">
   <div class="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
       Issue Management
     </h2>
-    <div class="flex"></div>
+    <div class="flex">
+      <h2 *ngIf="projectService.seletedProject!==null" class="text-2xl font-bold text-center text-gray-800 mb-6">
+        Project : {{projectService.seletedProject.title}}
+      </h2>
+    </div>
+    <div class="flex">
+      <h2 *ngIf="projectService.seletedProject===null" class="text-2xl font-bold text-center text-gray-800 mb-6">
+        All Issues
+      </h2>
+    </div>
     <button
       (click)="openDialog()"
       mat-raised-button
@@ -157,8 +166,14 @@
                 {{ issue.title }}
               </td>
               <td class="px-4 py-4 whitespace-pre-wrap">{{ issue.content }}</td>
-              <td class="px-3 py-4 whitespace-no-wrap">
-                {{ issue.progress }}%
+              <td *ngIf="issue.status ==='todo' " class="px-3 py-4 whitespace-no-wrap">
+                Not Started
+              </td>
+              <td *ngIf="issue.status ==='inProgress' " class="px-3 py-4 whitespace-no-wrap">
+                In Progress
+              </td>
+              <td *ngIf="issue.status ==='done' " class="px-3 py-4 whitespace-no-wrap">
+                Done
               </td>
               <td class="px-3 py-4 whitespace-no-wrap">{{ issue.priority }}</td>
               <td class="px-3 py-4 whitespace-no-wrap">{{ issue.category }}</td>

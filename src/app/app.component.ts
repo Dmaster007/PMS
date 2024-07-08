@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { Auth0ApiService } from './auth0-service.service';
 import { UsersService } from './users.service';
+import { IssuesService } from './issues.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ import { UsersService } from './users.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  constructor(public auth : Auth0ApiService , public users : UsersService){}
+  constructor(public auth : Auth0ApiService , public users : UsersService , private issues : IssuesService ){}
   title = 'PMS';
   
 }
