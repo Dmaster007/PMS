@@ -55,7 +55,7 @@ export class IssuesComponent {
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateIssuesComponent, {
-      data: {action:'Create', animal:"bolo" , project: this.projectService.seletedProject.id},
+      data: {action:'Create', animal:"bolo" },
     });
 
     dialogRef.afterClosed().subscribe(result => {

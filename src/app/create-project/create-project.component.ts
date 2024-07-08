@@ -51,7 +51,7 @@ export class CreateProjectComponent {
     this.projectForm = new FormGroup({
       projectName: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      members: new FormControl<User[] | null>(null, Validators.required),
+      members: new FormControl<User[] | null>(null),
     });
     setTimeout(()=>{
       this.filteredUsers = this.users.users;
@@ -120,6 +120,7 @@ export class CreateProjectComponent {
   }
 
   submit(event: Event): void {
+    console.log('hello');
     if (this.projectForm.valid) {
       // Handle form submission
       this.projectForm.value.members = this.selectedMembers;

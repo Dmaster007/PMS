@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UsersService } from '../users.service';
 import { Subscription } from 'rxjs';
 import { ProjectServiceService } from '../project-service.service';
+import User from '../users/user';
 @Component({
   selector: 'app-create-issues',
   standalone: true,
@@ -35,7 +36,7 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
   categories = ['Bug', 'Feature', 'Improvement'];
   priorities = ['Low', 'Medium', 'High'];
   progressOptions = [0, 25, 50, 75, 100];
-  filteredUsers: any = this.users.users.filter((user)=> user.role!== 'Admin');
+  filteredUsers: any = []
   private subscription: Subscription = new Subscription();
   constructor(
     public dialogRef: MatDialogRef<CreateIssuesComponent>,
@@ -44,6 +45,7 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
     private users: UsersService,
     public projects:ProjectServiceService
   ) {
+    this.filterUsers('')
     this.issueForm = new FormGroup({
       title: new FormControl(data.title || '', Validators.required),
       content: new FormControl(data.content || '', Validators.required),
@@ -53,7 +55,7 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
       startDate: new FormControl(data.startDate || '', Validators.required),
       dueDate: new FormControl(data.dueDate || '', Validators.required),
       assignee : new FormControl(data.assignee|| '', Validators.required),
-      project: new FormControl(data.project || ''),
+      project: new FormControl(projects.seletedProject?.id || ''),
       assigneeSearch: new FormControl(''),
       projectSearch: new FormControl(''),
       
@@ -71,6 +73,8 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
         })
       );
     }
+    // console.log(this.projects.seletedProject);
+    
   }
   
   ngOnDestroy(): void {
@@ -80,10 +84,22 @@ export class CreateIssuesComponent implements OnInit,OnDestroy {
     this.dialogRef.close();
   }
   filterUsers(searchText: string): void {
-    this.filteredUsers = this.users.users.filter(user =>
-      user.name.toLowerCase().includes(searchText.toLowerCase()) && user.role!== 'Admin'
-    );
+    if (this.projects.seletedProject !== null) {
+      console.log('hello');
+      
+      this.filteredUsers = this.users.users.filter(user => 
+        user.name.toLowerCase().includes(searchText.toLowerCase()) && 
+        user.role !== 'Admin' && 
+        this.projects.seletedProject.members.some((member: any) => member._id === user.id)
+      );
+    } else {
+      this.filteredUsers = this.users.users.filter(user => 
+        user.name.toLowerCase().includes(searchText.toLowerCase()) && 
+        user.role !== 'Admin'
+      );
+    }
   }
+  
   filteredProjects: any[] = []; // Initialize filteredProjects
 
   filterProjects(searchText: string): void {
