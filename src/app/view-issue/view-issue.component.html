@@ -1,0 +1,9 @@
+<h2 mat-dialog-title class="bg-white"><span class="text-gray-700">{{data.issue.title}}</span></h2>
+<mat-dialog-content  class="mat-typography bg-white">
+  <p  class="text-gray-700 pt-7">{{data.issue.content}}</p>
+  <p  class="text-gray-700 pt-3"> assigned to : {{data.issue.assigneeName.name}}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="bg-white">
+  <button mat-button mat-dialog-close class="bg-slate-300 rounded px-3">Close</button>
+  <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+</mat-dialog-actions>

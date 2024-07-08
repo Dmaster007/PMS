@@ -1,0 +1,47 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+  <!-- User Management Section -->
+  <div class="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mb-6">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">User Management</h2>
+    <button
+      mat-raised-button
+      *ngIf="usersService.userM.role === 'Admin'"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mb-3 rounded"
+      (click)="addUser()"
+    >
+      Add User
+    </button>
+    <div class="overflow-x-auto max-h-96 mt-4 relative">
+      <table class="min-w-full bg-white rounded-lg shadow-md">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600 uppercase sticky top-0">Name</th>
+            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600 uppercase sticky top-0">Email</th>
+            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600 uppercase sticky top-0">Role</th>
+            <th *ngIf="usersService.userM.role === 'Admin'" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600 uppercase sticky top-0">Password</th>
+            <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600 uppercase sticky top-0">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of usersService.users" class="hover:bg-gray-100 cursor-pointer">
+            <td class="px-6 py-4 border-b border-gray-300">
+              <div class="font-bold text-gray-800">{{ user.name }}</div>
+            </td>
+            <td class="px-6 py-4 border-b border-gray-300">
+              <div class="text-sm text-gray-800">{{ user.email }}</div>
+            </td>
+            <td class="px-5 py-4 border-b border-gray-300">
+              <div class="text-sm text-gray-800">{{ user.role }}</div>
+            </td>
+            <td *ngIf="usersService.userM.role === 'Admin'" class="px-6 py-4 border-b border-gray-300">
+              <div class="text-sm text-gray-800">{{ user.password }}</div>
+            </td>
+            <td class="px-6 py-4 border-b border-gray-300">
+              <button *ngIf="usersService.userM.role === 'Admin'" class="text-gray-400 hover:text-black" (click)="editUser(user)"><mat-icon >edit</mat-icon></button>
+              <button *ngIf="usersService.userM.role === 'Admin'" class="text-gray-400 hover:text-black" (click)="openDialog1(user)" ><mat-icon class="ml-4">delete</mat-icon></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

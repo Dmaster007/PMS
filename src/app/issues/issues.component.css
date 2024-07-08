@@ -1,0 +1,11 @@
+.accordion-content {
+    transition: max-height 0.2s ease-out, padding 0.2s ease-out;
+  }
+  /* Ensure the sticky header has a higher z-index to stay above the content */
+thead th.sticky {
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  background-color: #edf2f7; /* Use the desired background color */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
