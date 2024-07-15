@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Issue, IssuesService } from '../issues.service';
 import { ProjectServiceService } from '../project-service.service';
+import { BoardCardComponent } from '../board-card/board-card.component';
 
 interface KanbanItem {
   id: number;
@@ -12,7 +13,7 @@ interface KanbanItem {
 @Component({
   selector: 'app-kanban-board',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BoardCardComponent],
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.css'],
 })

@@ -4,6 +4,8 @@ import { Auth0ApiService } from './auth0-service.service';
 import User from './users/user';
 import Project from './issues/issues.component';
 import { ProjectServiceService } from './project-service.service';
+import { Observable, of } from 'rxjs';
+
 export interface Issue {
   id: string;
   title: string;
@@ -17,7 +19,10 @@ export interface Issue {
   status?:string;
   project : Project;
 }
-
+interface ChartData {
+  name: string;
+  value: number;
+}
 // export interface AssigObj {
 //   assigne:User,
 //   currentValue:number;
@@ -67,17 +72,20 @@ export class IssuesService {
     // setTimeout(()=>{
     this.getAllIssues();
     this.selectedProject = ProjectService.seletedProject
+    this.assignIssues()
+    
+    console.log(this.mappedIssues);
+    
     // },2000)
   }
   private baseUrl = 'http://localhost:3000/issues';
-  mappedIssues: Map<any, any> = new Map();
+  public mappedIssues = new Map<string, any>();
 
-  assignIssues() {
+  private assignIssues() {
     for (let i = 0; i < this.issues.length; i++) {
       const currentUser = this.issues[i].assigneeName.email;
 
       if (currentUser) {
-        // Ensure the issue exists in mappedIssues and initialize it to zero if it doesn't
         const existingEntry = this.mappedIssues.get(currentUser) || {
           currentValue: 0,
           assignee: this.issues[i].assigneeName,
@@ -89,9 +97,20 @@ export class IssuesService {
         this.mappedIssues.set(currentUser, currentObject);
       }
     }
-    // console.log(this.mappedIssues);
-  }
 
+    this.getChartData()
+  }
+  chartData:any;
+  
+  getChartData() {
+    this.chartData = Array.from(this.mappedIssues.values()).map(issue => ({
+      name: issue.assignee.name,
+      value: issue.currentValue
+    })).sort((a, b) => b.value - a.value);;
+    
+    
+    
+  }
   addIssue(data: any) {
     const headers = new HttpHeaders({
       Authorization: `${this.auth.token}`, // Include token in Authorization header

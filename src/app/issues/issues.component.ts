@@ -11,7 +11,7 @@ import { ViewIssueComponent } from '../view-issue/view-issue.component';
 import {MatIconModule} from '@angular/material/icon';
 import User from '../users/user';
 import { ProjectServiceService } from '../project-service.service';
-
+import { Color, NgxChartsModule, ScaleType,} from '@swimlane/ngx-charts';
 export default interface Project{
   id:String,
   title:String,
@@ -23,12 +23,16 @@ export default interface Project{
 @Component({
   selector: 'app-issues',
   standalone: true,
-  imports: [MatIconModule, CommonModule,CreateIssuesComponent,MatExpansionModule ,ReactiveFormsModule,MatProgressSpinnerModule],
+  imports: [MatIconModule,NgxChartsModule, CommonModule,CreateIssuesComponent,MatExpansionModule ,ReactiveFormsModule,MatProgressSpinnerModule],
   templateUrl: './issues.component.html',
   styleUrl: './issues.component.css'
 })
 export class IssuesComponent {
   constructor(public issuesService : IssuesService , public projectService : ProjectServiceService){
+    
+    setTimeout(()=>{
+      this.updatePieChartData();
+    },500)
     
   }
   readonly dialog = inject(MatDialog);
@@ -38,6 +42,31 @@ export class IssuesComponent {
   category = new FormControl('');
   isPanelOpen = false;
   
+  pieChartData: any[] = [];
+  legendposition =  'below'
+
+
+  colorScheme: Color = {
+    name: 'cool',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: [ '#A10A28','#C7B42C','#5AA454', '#AAAAAA']
+  };
+  updatePieChartData() {
+    const notStartedCount = this.issuesService.filteredIssues.filter(issue => issue.status === 'todo').length;
+    const inProgressCount = this.issuesService.filteredIssues.filter(issue => issue.status === 'inProgress').length;
+    const doneCount = this.issuesService.filteredIssues.filter(issue => issue.status === 'done').length;
+
+    this.pieChartData = [
+      { name: 'not started', value: notStartedCount },
+      { name: 'in progress', value: inProgressCount },
+      { name: 'done', value: doneCount }
+    ];
+
+    console.log(this.pieChartData);
+    
+  }
+
   toggleAccordion(panelId: string): void {
     this.isPanelOpen = !this.isPanelOpen;
   }
@@ -112,7 +141,7 @@ export class IssuesComponent {
       const matchesPriority = selectedPriority ? issue.priority === selectedPriority : true;
       const matchesProgress = selectedProgress ? issue.progress.toString() === selectedProgress : true;
       const matchesCategory = selectedCategory ? issue.category === selectedCategory : true;
-
+      this.updatePieChartData()
       return matchesPriority && matchesProgress && matchesCategory;
     });
   }

@@ -12,6 +12,7 @@ import { map } from 'rxjs';
 export class ProjectServiceService {
   projects: any = [];
   seletedProject : any = null
+  filteredProjects : any;
   getDemoProjects(): Project[] {
     // const users: User[] = [
     //   { id: '1', name: 'User One', email: 'userone@example.com', role: 'User' },
@@ -50,6 +51,13 @@ export class ProjectServiceService {
     this.getAllprojects()
   }
 
+  filterprojects(){
+    this.filteredProjects = this.projects.filter((project:any)=>{
+      project.lead._id === this.users.userM.id
+    })
+    console.log(this.filteredProjects);
+    
+  }
   private getAllprojects() {
     const headers = new HttpHeaders({
       Authorization: `${this.auth.token}`, // Include token in Authorization header
@@ -71,7 +79,8 @@ export class ProjectServiceService {
             lead: project.lead,
           }));
           
-          // console.log('Mapped Projects:', this.projects);
+          
+          
         },
         error: (error) => {
           console.error('Error fetching projects:', error);
