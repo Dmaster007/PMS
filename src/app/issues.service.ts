@@ -2,6 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Auth0ApiService } from './auth0-service.service';
 import User from './users/user';
+import Project from './issues/issues.component';
+import { ProjectServiceService } from './project-service.service';
+import { Observable, of } from 'rxjs';
+
 export interface Issue {
   id: string;
   title: string;
@@ -12,8 +16,13 @@ export interface Issue {
   dueDate: string; // Use Date type if using actual dates // Assuming assignee is represented by user ID
   assigneeName: User; // Display name of the assignee
   category: string;
+  status?:string;
+  project : Project;
 }
-
+interface ChartData {
+  name: string;
+  value: number;
+}
 // export interface AssigObj {
 //   assigne:User,
 //   currentValue:number;
@@ -22,6 +31,7 @@ export interface Issue {
   providedIn: 'root',
 })
 export class IssuesService {
+  selectedProject : Project | null = null ;
   filteredIssues: Issue[] = [];
   issues: Issue[] = [
     // {
@@ -58,20 +68,24 @@ export class IssuesService {
     //   category: 'Improvement',
     // },
   ];
-  constructor(private http: HttpClient, private auth: Auth0ApiService) {
+  constructor(private http: HttpClient, private auth: Auth0ApiService , private ProjectService : ProjectServiceService) {
     // setTimeout(()=>{
     this.getAllIssues();
+    this.selectedProject = ProjectService.seletedProject
+    this.assignIssues()
+    
+    console.log(this.mappedIssues);
+    
     // },2000)
   }
   private baseUrl = 'http://localhost:3000/issues';
-  mappedIssues: Map<any, any> = new Map();
+  public mappedIssues = new Map<string, any>();
 
-  assignIssues() {
+  private assignIssues() {
     for (let i = 0; i < this.issues.length; i++) {
       const currentUser = this.issues[i].assigneeName.email;
 
       if (currentUser) {
-        // Ensure the issue exists in mappedIssues and initialize it to zero if it doesn't
         const existingEntry = this.mappedIssues.get(currentUser) || {
           currentValue: 0,
           assignee: this.issues[i].assigneeName,
@@ -83,13 +97,26 @@ export class IssuesService {
         this.mappedIssues.set(currentUser, currentObject);
       }
     }
-    // console.log(this.mappedIssues);
-  }
 
+    this.getChartData()
+  }
+  chartData:any;
+  
+  getChartData() {
+    this.chartData = Array.from(this.mappedIssues.values()).map(issue => ({
+      name: issue.assignee.name,
+      value: issue.currentValue
+    })).sort((a, b) => b.value - a.value);;
+    
+    
+    
+  }
   addIssue(data: any) {
     const headers = new HttpHeaders({
       Authorization: `${this.auth.token}`, // Include token in Authorization header
     });
+    
+    
     const body = {
       title: data.title,
       content: data.content,
@@ -99,13 +126,19 @@ export class IssuesService {
       assignee: data.assignee,
       category: data.category,
       progress: data.progress,
+      project:data.project
     };
+    // console.log(data.assignee);
+    
     this.http
       .post('http://localhost:3000/issues/createIssue', body, { headers })
       .subscribe({
         next: (data) => {
           console.log('Data:', data);
           this.getAllIssues();
+          
+          
+          
           // this.issues.push(data);
         },
         error: (error) => {
@@ -128,9 +161,10 @@ export class IssuesService {
       assignee: data.assignee,
       category: data.category,
       progress: data.progress,
+      status : data.status,
     };
     this.http
-      .put(`http://localhost:3000/issues/updateIssue/${data.issue_id}`, body, {
+      .put(`http://localhost:3000/issues/updateIssue/${data.id}`, body, {
         headers,
       })
       .subscribe({
@@ -194,9 +228,19 @@ export class IssuesService {
             dueDate: issue.dueDate, // Assuming assignee is an object with an _id property
             assigneeName: issue.assignee, // Assuming assignee has a name property
             category: issue.category,
+            status:issue.status,
+            project:issue.project
           }));
-          // console.log('Mapped Issues:', this.issues);
-          this.filteredIssues = this.issues;
+          console.log('Mapped Issues:', this.issues);
+          if(this.ProjectService.seletedProject!==null && this.ProjectService.seletedProject){
+          this.filteredIssues = this.issues.filter((issue) => {
+              // console.log('Comparing project IDs:', issue.project.id, entry.id); // Log the project IDs being compared
+              return issue.project.title === this.ProjectService.seletedProject.title;
+            });
+          }
+          else{
+            this.filteredIssues = this.issues;
+          }
           this.assignIssues();
         },
         error: (error) => {

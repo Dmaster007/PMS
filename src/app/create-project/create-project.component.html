@@ -32,8 +32,8 @@
             </mat-chip-grid>
           </mat-form-field>
         </div>
-          <input id="memberSearch" type="text" formControlName="memberSearch" class="text-gray-700 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" (input)="filterMembers($event)" placeholder="Search members">
-          <select id="members" formControlName="members" class="text-gray-500 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" (change)="addMemberFromSelect($event)" required>
+          <input id="memberSearch" type="text"  class="text-gray-700 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" (input)="filterMembers($event)" placeholder="Search members">
+          <select id="members" [formControl]="memberSearch" class="text-gray-500 mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" (input)="addMemberFromSelect($event)" required>
             <option class="text-gray-500" *ngFor="let user of filteredUsers" [value]="user.id">{{ user.name }} : {{user.email}}</option>
           </select>
         </div>

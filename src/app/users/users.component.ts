@@ -8,6 +8,7 @@ import { Auth0ApiService } from '../auth0-service.service';
 import { UsersService } from '../users.service';
 import { DeleteIssueComponent } from '../delete-issue/delete-issue.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ExcelExportService } from '../excel-export.service';
 
 @Component({
   selector: 'app-users',
@@ -18,12 +19,19 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class UsersComponent {
   
-  constructor(public dialog: MatDialog, private auth: Auth0ApiService, public usersService: UsersService) {
+  constructor(public dialog: MatDialog, private auth: Auth0ApiService, public usersService: UsersService , private excel :ExcelExportService) {
     this.users = this.usersService.users
   }
   
   users: User[] = this.usersService.users;
- 
+
+  // exportToExcel() {
+  //   this.excel.exportUsersToExcel(this.usersService.users, 'Users');
+  // }
+  // exportToExcel() {
+  //   //const jsonData = '[{"name": "John Doe", "position": "Developer", "office": {"location": "NY"}}, {"name": "Jane Doe", "position": "Manager", "office": {"location": "LA"}}]';
+  //   this.excel.download(`${this.usersService.users}`);
+  // }
 
   addUser(): void {
     const dialogRef = this.dialog.open(CreateUserComponent, {

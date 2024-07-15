@@ -1,10 +1,32 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+<div class="flex flex-col items-center justify-center min-h-screen mt-16 bg-gray-100">
   <div class="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
       Issue Management
     </h2>
-    <div class="flex"></div>
+    <div *ngIf="projectService.seletedProject!==null" class="flex">
+      <h2  class="text-2xl font-bold text-center text-gray-800 mb-6">
+        Project : {{projectService.seletedProject.title}}
+      </h2>
+      <div class="ml-4">
+      <ngx-charts-advanced-pie-chart
+        
+        [view]="[800, 300]"
+        [scheme]="colorScheme"
+        [results]="pieChartData"
+        label = 'Total Issues'
+        legendTitle="status"
+        
+        class="ml-3"
+      ></ngx-charts-advanced-pie-chart>
+    </div>
+    </div>
+    <div class="flex">
+      <h2 *ngIf="projectService.seletedProject===null" class="text-2xl font-bold text-center text-gray-800 mb-6">
+        All Issues
+      </h2>
+    </div>
     <button
+    
       (click)="openDialog()"
       mat-raised-button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mb-3 rounded"
@@ -157,8 +179,14 @@
                 {{ issue.title }}
               </td>
               <td class="px-4 py-4 whitespace-pre-wrap">{{ issue.content }}</td>
-              <td class="px-3 py-4 whitespace-no-wrap">
-                {{ issue.progress }}%
+              <td *ngIf="issue.status ==='todo' " class="px-3 py-4 whitespace-no-wrap">
+                Not Started
+              </td>
+              <td *ngIf="issue.status ==='inProgress' " class="px-3 py-4 whitespace-no-wrap">
+                In Progress
+              </td>
+              <td *ngIf="issue.status ==='done' " class="px-3 py-4 whitespace-no-wrap">
+                Done
               </td>
               <td class="px-3 py-4 whitespace-no-wrap">{{ issue.priority }}</td>
               <td class="px-3 py-4 whitespace-no-wrap">{{ issue.category }}</td>

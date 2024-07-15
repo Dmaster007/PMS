@@ -5,6 +5,7 @@ import User from './users/user';
 import newUser from './newUser';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
+import { ProjectServiceService } from './project-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class UsersService implements OnDestroy {
   public users: User[] = [];
   public userM:any = {}
   private userSubscription: Subscription = new Subscription();
-  constructor(private http: HttpClient, private auth: Auth0ApiService ,private authSer :AuthService) {
+  constructor(private http: HttpClient, private auth: Auth0ApiService ,private authSer :AuthService ) {
     this.getAllUsers();
     setTimeout(() => {
       this.userSubscription = this.authSer.user$.subscribe((data) => {
@@ -21,9 +22,9 @@ export class UsersService implements OnDestroy {
          // Assuming data is your user object emitted by user$
          this.userM = this.users.find((user)=> user.email === data?.email);
         //  console.log(this.userM);
-         
+        // this.projectService.filterprojects()
       });
-    }, 1000);
+    }, 500);
     
   }
   ngOnDestroy(): void {
