@@ -1,5 +1,5 @@
 <H1 align="center">
-  <IMG SRC="https://capsule-render.vercel.app/api?type=rect&color=gradient&height=100&section=footer&text=✨doNow+-+Project+Management+System✨&fontSize=50">
+  <IMG SRC="https://capsule-render.vercel.app/api?type=rect&color=gradient&height=100&section=footer&text=✨doNow+-+Project+Management+System✨&fontSize=41"
 </H1>
 
 <p align="center">
@@ -101,8 +101,7 @@ Here’s how **doNow** looks in action! 🚀
 ---
 
 # ✨ Thank You for Using doNow!  
-Feel free to open issues or submit feature requests to improve the platform. 🚀
-```
+Feel free to open issues or submit feature requests to improve the platform. 🚀.
 
 
 
