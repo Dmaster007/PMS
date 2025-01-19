@@ -1,27 +1,108 @@
-# PMS
+<H1 align="center">
+  <IMG SRC="https://capsule-render.vercel.app/api?type=rect&color=gradient&height=100&section=footer&text=✨doNow+-+Project+Management+System✨&fontSize=50">
+</H1>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+<p align="center">
+  <img src="http://ForTheBadge.com/images/badges/built-with-love.svg">
+  <img src="http://ForTheBadge.com/images/badges/built-by-developers.svg">
+  <img src="http://ForTheBadge.com/images/badges/powered-by-coffee.svg">
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge">
+  
+  <br>
+  <img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white">
+</p>
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# 🌟 Introduction  
 
-## Code scaffolding
+**doNow** is a **powerful Project Management System** designed for businesses and personal use to:  
+- 🛠 **Streamline workflows**  
+- 📊 **Monitor progress efficiently**  
+- 🚀 **Enhance team collaboration**  
+- 📈 **Empower leaders with insights**  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Whether you're managing a small team or handling large-scale projects, **doNow** is here to help you stay on top of your game. 💼  
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# 🏁 Getting Started  
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+-  Clone the repository and install dependencies:  
+   ```bash
+   git clone <repository-url>
+   cd donow
+   npm install
+   ```  
 
-## Running end-to-end tests
+-  Start the development server:  
+   ```bash
+   ng serve
+   ```  
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Set up **Auth0** for authentication by following the [Auth0 documentation](https://auth0.com/).  
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# 📸 Screenshots  
+
+Here’s how **doNow** looks in action! 🚀  
+
+| Dashboard View | Kanban Board | Analytics Page |  
+|----------------|--------------|----------------|  
+| *(Insert Screenshot Here)* | *(Insert Screenshot Here)* | *(Insert Screenshot Here)* |  
+
+---
+
+# 🛠️ Features  
+
+- **Role-Based Access:**  
+  - Admins: Manage users, projects, and tasks.  
+  - Users: Collaborate on tasks and monitor project progress.  
+
+- **Dashboard Overview:**  
+  Centralized view of all projects, tasks, and member progress.  
+
+- **Kanban Board:**  
+  Visualize tasks and track project workflow.  
+
+- **Filters & Reports:**  
+  Filter tasks by department, priority, and more. Generate detailed progress reports.  
+
+- **Analytics & Graphs:**  
+  Get insights into team performance with detailed visualizations.  
+
+- **Email Notifications:**  
+  Notify team members about updates directly within the app.  
+
+- **Data Export:**  
+  Export project and task details for offline use.  
+
+---
+
+# 🛠️ Tech Stack  
+
+- **Frontend:** Angular, TypeScript, Tailwind CSS, Angular Material  
+- **Backend:** Express.js, MongoDB  
+- **Authentication:** [Auth0](https://auth0.com/)  
+
+---
+
+# 🤝 Contributors  
+
+| Name | GitHub Profile |  
+|------|----------------|  
+| Your Name | [@durgesh_agrawal](https://github.com/Dmaster007) |  
+
+---
+
+# ✨ Thank You for Using doNow!  
+Feel free to open issues or submit feature requests to improve the platform. 🚀
+```
+
+
+
